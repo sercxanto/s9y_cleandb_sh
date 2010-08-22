@@ -1,0 +1,22 @@
+s9y_cleandb
+
+Some database tables in serendipity tend to become very big with time. This is especially the case for logging only tables like spamblocklog and visitors.
+
+The problem seems to be well known (http://board.s9y.org/viewtopic.php?f=2&t=8832&start=0).
+
+There exists an alpha version of a plugin (http://board.s9y.org/viewtopic.php?f=11&t=16558) and a feature request for the admin panel (http://board.s9y.org/viewtopic.php?f=10&t=16148&p=92554&hilit=cleandb#p92554) but the changes did not appear in spartacus or the mainline code
+
+However I use the very simple approach to just call an external shell script to delete all entries older than a given date.
+
+
+To use it:
+ * Place it in /usr/local/sbin
+ * Create a MySQL client config file my_cnf_dbclean with database, user and password information:
+     [client]
+     database=your_s9y_dbname
+     user=your_s9y_db_username
+     password=your_s9y_db_password
+ * And add the call "/usr/local/sbin/s9y_cleandb.sh /path/to/my_cnf_dbclean" e.g to /etc/cron.weekly/s9y_cleanup
+
+I call it weekly, so that I don't get annoyed by daily cron mail output, but can keep an eye on it on the other hand. Hopefully s9y soons gets an automated time based database maintenace mechanism...
+
